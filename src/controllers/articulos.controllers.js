@@ -81,9 +81,8 @@ Controller.deleteArticle = async (req, res) => {
     try {
         await Article.findByIdAndDelete(req.params.id);
         res.status(200).json("Articulo borrado correctamente");
-
     } catch (error) {
-        res.status(404).json(error.message(`Ocurrió un error al borrar el articulo: ${error}`));
+        res.status(404).json(`Ocurrió un error al borrar el articulo: ${error}`);
         console.error(`Ocurrió un error al borrar el articulo: ${error}`);
     } finally {
         console.log("Se utilizó el controlador deleteArticle");
