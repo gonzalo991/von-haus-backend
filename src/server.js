@@ -3,21 +3,20 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
 const morgan = require('morgan');
-const PORT = process.env.SERVER_PORT || 8080;
+const PORT = process.env.SERVER_PORT;
 const db = require('./database/db.database');
+const articulosRoutes = require('./router/articulos.routes');
 
 //Configuraciones globales
-dotenv.config({ path: '../.env' });
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public/')));
 
-app.use((req, res) => {
-    res.send("Hola Mundo desde la api de von haus lola mora");
-});
-
+app.use('/articulos', articulosRoutes);
+app.use('/usuarios', require('./router/user.routes'));
 
 app.listen(PORT, (error) => {
     if (error)

@@ -10,6 +10,6 @@ const ArticleSchema = new Schema({
     timestamps: true
 });
 
-const Article = mongo.model('articulo', ArticleSchema);
+const Article = mongoose.model('articulo', ArticleSchema);
 
 module.exports = Article;

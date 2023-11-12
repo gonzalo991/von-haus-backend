@@ -1,5 +1,5 @@
 const Controller = {}
-const User = require('../models/user.model');
+const User = require('../models/user.models');
 const jwt = require('jsonwebtoken');
 const JwtKey = process.env.JWT;
 
@@ -36,6 +36,18 @@ Controller.userLogin = async (req, res) => {
 
         console.log('Controlador login');
 
+    }
+}
+
+Controller.adminPanel = async (req, res) => {
+    try {
+        const user = await User.find();
+        res.status(200).json(user);
+    } catch(error) {
+        res.status(400).json("No se encontraron los datos del administrador");
+        console.log("No se encontraron los datos del administrador");
+    } finally {
+        console.log("Se utilizó el controlador de admin panel");
     }
 }
 

@@ -1,11 +1,13 @@
 const Controller = require('../controllers/articulos.controllers');
-const Router = require('express').Router();
+const express = require('express');
+const route = express.Router();
+const { Authentication } = require('../middlewares/jwt.middleware');
+const upload = require('../middlewares/multer.middleware');
 
-Router.use('/getArticle', Controller.getArticles);
-Router.use('/getArticle/:id', Controller.getArticleById);
-Router.use('/addArticle', Controller.addArticle);
-Router.use('/editArticle', Controller.editArticle);
-Router.use('/deleteArticle', Controller.deleteArticle);
+route.get('/getArticles', Controller.getArticle);
+route.get('/:id', Controller.getArticleById);
+route.post('/addArticle', Authentication, upload.single('image'), Controller.addArticle);
+route.post('/editArticle/:id', Authentication, Controller.editArticle);
+route.delete('/deleteArticle/:id', Authentication, Controller.deleteArticle);
 
-
-module.exports = Router;
+module.exports = route;

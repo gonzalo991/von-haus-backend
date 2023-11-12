@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema } = mongo;
+const { Schema } = mongoose;
 
 // Definición del esquema
 const UserSchema = new Schema({
