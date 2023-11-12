@@ -5,7 +5,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config({ path: './.env' });
 const morgan = require('morgan');
-const PORT = process.env.SERVER_PORT;
+const port = process.env.PORT;
 const db = require('./database/db.database');
 const articulosRoutes = require('./router/articulos.routes');
 
@@ -18,9 +18,9 @@ app.use(express.static(path.join(__dirname, '../public/')));
 app.use('/articulos', articulosRoutes);
 app.use('/usuarios', require('./router/user.routes'));
 
-app.listen(PORT, (error) => {
+app.listen(port, (error) => {
     if (error)
         console.log(`Hubo un error al iniciar el servidor: ${error}`);
     else
-        console.log(`Server stablished on port: ${PORT}`);
+        console.log(`Server stablished on port: ${port}`);
 });
