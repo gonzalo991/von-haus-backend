@@ -28,7 +28,7 @@ Controller.getArticleById = async (req, res) => {
 
 Controller.addArticle = async (req, res) => {
     try {
-        const { titulo, subtitulo, image, texto } = req.body;
+        const { titulo, subtitulo, texto } = req.body;
 
         // Verificar si hay un archivo adjunto
         if (!req.file) {
