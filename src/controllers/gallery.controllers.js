@@ -14,10 +14,10 @@ Controller.getCards = async (req, res) => {
 
 Controller.addCard = async (req, res) => {
     try {
-        const { titulo, descripcion } = req.body;
-        const image = req.file.originalname;
+        const { titulo, image, descripcion } = req.body;
+        const nuevaImagen = Buffer.from(image, 'base64');
 
-        const galleryImg = new Gallery({ titulo, image, descripcion });
+        const galleryImg = new Gallery({ titulo, image: nuevaImagen, descripcion });
 
         const galleryAdd = await galleryImg.save();
 
@@ -33,9 +33,8 @@ Controller.addCard = async (req, res) => {
 Controller.updateCard = async (req, res) => {
     try {
         const { titulo, descripcion } = req.body;
-        const image = req.file.originalname;
 
-        const galleryUpdate = { titulo, image, descripcion }
+        const galleryUpdate = { titulo, descripcion }
 
         console.log(req.params.id);
         console.log(galleryUpdate);

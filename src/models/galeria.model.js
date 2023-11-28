@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const GallerySchema = new Schema({
     titulo: { type: String },
-    image: { type: String, require: true },
+    image: { type: Buffer, require: true },
     descripcion: { type: String }
 }, {
     timestamps: true

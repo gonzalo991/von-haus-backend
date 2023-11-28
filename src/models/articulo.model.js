@@ -5,7 +5,7 @@ const ArticleSchema = new Schema({
     titulo: { type: String },
     subtitulo: { type: String },
     texto: { type: String },
-    image: { type: String, require: true }
+    image: { type: Buffer, require: true }
 }, {
     timestamps: true
 });
