@@ -29,12 +29,17 @@ Controller.getArticleById = async (req, res) => {
 Controller.addArticle = async (req, res) => {
     try {
         const { titulo, subtitulo, image, texto } = req.body;
-        const nuevaImagen = Buffer.from(image, 'base64');
 
+        // Verificar si hay un archivo adjunto
+        if (!req.file) {
+            return res.status(400).json('No se proporcionó ninguna imagen.');
+        }
+
+        const {buffer} = req.file;
         const nuevoArticulo = new Article({
             titulo,
             subtitulo,
-            image: nuevaImagen,
+            image: buffer,
             texto
         });
 

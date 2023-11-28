@@ -14,10 +14,15 @@ Controller.getCards = async (req, res) => {
 
 Controller.addCard = async (req, res) => {
     try {
-        const { titulo, image, descripcion } = req.body;
-        const nuevaImagen = Buffer.from(image, 'base64');
+        const { titulo, descripcion } = req.body;
 
-        const galleryImg = new Gallery({ titulo, image: nuevaImagen, descripcion });
+        // Verificar si hay un archivo adjunto
+        if (!req.file) {
+            return res.status(400).json('No se proporcionó ninguna imagen.');
+        }
+
+        const { buffer } = req.file;
+        const galleryImg = new Gallery({ titulo, image: buffer, descripcion });
 
         const galleryAdd = await galleryImg.save();
 
@@ -34,7 +39,13 @@ Controller.updateCard = async (req, res) => {
     try {
         const { titulo, descripcion } = req.body;
 
-        const galleryUpdate = { titulo, descripcion }
+        // Verificar si hay un archivo adjunto
+        if (!req.file) {
+            return res.status(400).json('No se proporcionó ninguna imagen.');
+        }
+
+        const { buffer } = req.file;
+        const galleryUpdate = { titulo, image: buffer, descripcion }
 
         console.log(req.params.id);
         console.log(galleryUpdate);
