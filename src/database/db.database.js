@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const URI = "mongodb://localhost:27017/test_db";
+const URI = process.env.DB_URI;
 const DB_PORT = process.env.DB_PORT || 27017;
 
 mongoose.connect(URI)
