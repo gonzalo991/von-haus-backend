@@ -8,7 +8,7 @@ if (!fs.existsSync(directory)) {
     fs.mkdirSync(directory, { recursive: true });
 }
 
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/uploads/');
     },

@@ -14,6 +14,8 @@ Controller.getCards = async (req, res) => {
 
 Controller.addCard = async (req, res) => {
     try {
+        console.log(req.file); // Agrega este log para verificar la información de la imagen
+
         const { titulo, descripcion } = req.body;
 
         // Verificar si hay un archivo adjunto
@@ -21,7 +23,6 @@ Controller.addCard = async (req, res) => {
             return res.status(400).json('No se proporcionó ninguna imagen.');
         }
 
-        // No es necesario convertir la imagen a Buffer, ya está disponible en req.file.buffer
         const imageBuffer = req.file.buffer;
 
         const galleryImg = new Gallery({ titulo, image: imageBuffer, descripcion });
