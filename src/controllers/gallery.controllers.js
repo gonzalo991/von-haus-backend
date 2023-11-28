@@ -14,26 +14,29 @@ Controller.getCards = async (req, res) => {
 
 Controller.addCard = async (req, res) => {
     try {
-        const { titulo, descripcion } = req.body;
+        try {
+            const { titulo, descripcion } = req.body;
 
-        // Verificar si hay un archivo adjunto
-        if (!req.file) {
-            return res.status(400).json('No se proporcionó ninguna imagen.');
+            // Verificar si hay un archivo adjunto
+            if (!req.file) {
+                return res.status(400).json('No se proporcionó ninguna imagen.');
+            }
+
+            // No es necesario convertir la imagen a Buffer, ya está disponible en req.file.buffer
+            const imageBuffer = req.file.buffer;
+
+            const galleryImg = new Gallery({ titulo, image: imageBuffer, descripcion });
+
+            const galleryAdd = await galleryImg.save();
+
+            res.status(200).json(`Se agregó a la base de datos: \n ${galleryAdd}`);
+
+        } catch (error) {
+            console.error(`Ocurrió un error al guardar la tarjeta: ${error}`);
+            res.status(500).json(`Ocurrió un error al guardar la tarjeta: ${error}`);
+        } finally {
+            console.info("Se utilizó el controlador add card");
         }
-
-        const image = req.file;
-        const imagenBuffer = Buffer.from(image, 'base64');
-
-        const galleryImg = new Gallery({ titulo, image: imagenBuffer, descripcion });
-
-        const galleryAdd = await galleryImg.save();
-
-        res.status(200).json(`Se agrego a la base de datos: \n ${galleryAdd}`);
-
-    } catch (error) {
-        console.error(`Ocurrió un error al guardar la tarjeta: ${error}`);
-    } finally {
-        console.info("Se utilizo el controlador add card");
     }
 }
 
