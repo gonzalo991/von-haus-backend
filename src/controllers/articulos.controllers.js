@@ -1,5 +1,4 @@
 const Controller = {}
-const { isObjectIdOrHexString } = require('mongoose');
 const Article = require('../models/articulo.model');
 
 Controller.getArticle = async (req, res) => {

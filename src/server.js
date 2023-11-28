@@ -11,14 +11,15 @@ const articulosRoutes = require('./router/articulos.routes');
 const cors = require('cors');
 
 //Configuraciones globales
-app.use(morgan('dev'));
+app.use(morgan('common'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, '../public/')));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(cors());
 
 app.use('/articulos', articulosRoutes);
 app.use('/usuarios', require('./router/user.routes'));
+app.use('/gallery', require('./router/gallery.routes'));
 
 app.listen(port, (error) => {
     if (error)
