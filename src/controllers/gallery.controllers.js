@@ -23,9 +23,9 @@ Controller.addCard = async (req, res) => {
             return res.status(400).json('No se proporcionó ninguna imagen.');
         }
 
-        const imageBuffer = req.file.buffer;
+        const base64Image = req.file.buffer.toString('base64');
 
-        const galleryImg = new Gallery({ titulo, image: imageBuffer, descripcion });
+        const galleryImg = new Gallery({ titulo, image: base64Image, descripcion });
 
         const galleryAdd = await galleryImg.save();
 
