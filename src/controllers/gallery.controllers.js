@@ -4,10 +4,7 @@ const Gallery = require('../models/galeria.model');
 Controller.getCards = async (req, res) => {
     try {
         const card = await Gallery.find();
-
-
         res.status(200).json(card);
-        
     } catch (error) {
         res.status(400).json(`Ocurrio un error al cargar las tarjetas: ${error}`);
     } finally {

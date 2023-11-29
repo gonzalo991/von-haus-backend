@@ -29,7 +29,12 @@ Controller.getArticleById = async (req, res) => {
 Controller.addArticle = async (req, res) => {
     try {
         const { titulo, subtitulo, texto } = req.body;
-        const image = req.file.originalname;
+
+        if (!req.file) {
+            return res.status(400).json('No se proporcionó ninguna imagen.');
+        }
+
+        const image = req.file.buffer.toString('base64');
 
         const agregar_articulo = new Article({
             titulo, subtitulo, texto, image
@@ -40,8 +45,10 @@ Controller.addArticle = async (req, res) => {
         res.status(200).json(`Articulo publicado correctamente: ${articulo}`);
 
     } catch (err) {
+
         res.status(400).json(`Ocurrió un error al agregar el articulo: ${err}`);
         console.error(`Ocurrió un error al agregar el articulo: ${err}`);
+
     } finally {
         console.log("Se intento agregar un articulo con el controlador addArticle");
     }
