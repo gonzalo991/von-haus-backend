@@ -4,7 +4,17 @@ const Gallery = require('../models/galeria.model');
 Controller.getCards = async (req, res) => {
     try {
         const card = await Gallery.find();
-        res.status(200).json(card);
+
+        // Convertir las imágenes a base64 antes de enviar la respuesta
+        const galleryWithBase64 = card.map((item) => ({
+            _id: item._id,
+            titulo: item.titulo,
+            image: Buffer.from(item.image.buffer).toString('base64'), 
+            createdAt: item.createdAt,
+        }));
+
+        res.status(200).json(galleryWithBase64);
+        
     } catch (error) {
         res.status(400).json(`Ocurrio un error al cargar las tarjetas: ${error}`);
     } finally {
