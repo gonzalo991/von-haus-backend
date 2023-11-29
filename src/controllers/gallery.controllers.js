@@ -5,15 +5,8 @@ Controller.getCards = async (req, res) => {
     try {
         const card = await Gallery.find();
 
-        // Convertir las imágenes a base64 antes de enviar la respuesta
-        const galleryWithBase64 = card.map((item) => ({
-            _id: item._id,
-            titulo: item.titulo,
-            image: Buffer.from(item.image.buffer).toString('base64'), 
-            createdAt: item.createdAt,
-        }));
 
-        res.status(200).json(galleryWithBase64);
+        res.status(200).json(card);
         
     } catch (error) {
         res.status(400).json(`Ocurrio un error al cargar las tarjetas: ${error}`);
@@ -33,9 +26,9 @@ Controller.addCard = async (req, res) => {
             return res.status(400).json('No se proporcionó ninguna imagen.');
         }
 
-        const base64Image = req.file.buffer.toString('base64');
+        const image = req.file.buffer.toString('base64');
 
-        const galleryImg = new Gallery({ titulo, image: base64Image, descripcion });
+        const galleryImg = new Gallery({ titulo, image, descripcion });
 
         const galleryAdd = await galleryImg.save();
 
