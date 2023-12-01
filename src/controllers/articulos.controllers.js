@@ -10,7 +10,6 @@ Controller.getArticle = async (req, res) => {
         res.status(400).json(`Ocurrio un error al cargar los articulos : ${err}`)
         console.error(`Ocurrio un error al cargar los articulos : ${err}`);
     } finally {
-        res.status(200).json("Get Article controller executed");
         console.info('Get Article controller executed');
     }
 }
@@ -24,7 +23,6 @@ Controller.getArticleById = async (req, res) => {
         res.status(404).json(`Article not found: ${error}`);
         console.error(`Article not found: ${error}`)
     } finally {
-        res.status(200).json("Get Article By Id executed");
         console.info("Get Article By Id controller executed");
     }
 }
@@ -54,7 +52,6 @@ Controller.addArticle = async (req, res) => {
         console.error(`An error ocurred during article's addition: ${err}`);
 
     } finally {
-        res.status(200).json("Add article controller executed")
         console.info("Add article controller executed");
     }
 }
@@ -81,7 +78,6 @@ Controller.editArticle = async (req, res) => {
         console.error(`An error ocurred during update: ${error}`);
     } finally {
         // Imprimo un mensaje por consola para confirmar que la función funciona correctamente
-        res.status(200).json("Edit Article controller executed");
         console.info("Edit Article controller executed");
     }
 }
@@ -94,7 +90,6 @@ Controller.deleteArticle = async (req, res) => {
         res.status(404).json(`Ocurrió un error al borrar el articulo: ${error}`);
         console.error(`Ocurrió un error al borrar el articulo: ${error}`);
     } finally {
-        res.status(200).json("Delete Article controller executed");
         console.info("Delete Article controller executed");
     }
 }

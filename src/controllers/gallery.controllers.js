@@ -8,7 +8,6 @@ Controller.getCards = async (req, res) => {
     } catch (error) {
         res.status(400).json(`Cards loading failed: ${error}`);
     } finally {
-        res.status(200).json("Get cards controller executed");
         console.info("Get cards controller executed");
     }
 }
@@ -36,7 +35,6 @@ Controller.addCard = async (req, res) => {
         res.status(500).json(`Error during card saving: ${error}`);
         console.error(`Error during card saving: ${error}`);
     } finally {
-        res.status(200).json("Add card controller executed");
         console.info("Add card controller executed");
     }
 }
@@ -59,10 +57,9 @@ Controller.updateCard = async (req, res) => {
         console.info("Card successfully updated");
 
     } catch (error) {
-        res.status(401).json(`An error occurred during update: \n ${error}`);
+        res.status(500).json(`An error occurred during update: \n ${error}`);
         console.error(`An error occurred during update: \n ${error}`);
     } finally {
-        res.status(200).json("Update card controller executed.");
         console.info("Update card controller executed.");
     }
 }
@@ -73,10 +70,9 @@ Controller.deleteCard = async (req, res) => {
         res.status(200).json("Card deleted");
         console.info("Card deleted");
     } catch (error) {
-        res.status(401).json(`An error occurred during card's deletion: ${error}`);
+        res.status(500).json(`An error occurred during card's deletion: ${error}`);
         console.error(`An error occurred during card's deletion: ${error}`);
     } finally {
-        res.status(200).json("Delete card controller executed");
         console.info("Delete card controller executed");
     }
 }

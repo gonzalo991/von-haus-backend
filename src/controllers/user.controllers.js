@@ -24,7 +24,6 @@ Controller.userLogin = async (req, res) => {
         console.error(`Error during user authentication: ${error}`);
         res.status(500).json('Internal server error');
     } finally {
-        res.status(200).json('Login controller executed');
         console.info("Login controller executed");
     }
 };
@@ -37,7 +36,6 @@ Controller.adminPanel = async (req, res) => {
         res.status(400).json("Administrators' data not found");
         console.error("Administrator data not found");
     } finally {
-        res.status(200).json("Administrator controller executed");
         console.info("Administrator controller executed");
     }
 }
