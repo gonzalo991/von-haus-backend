@@ -11,7 +11,7 @@ const articulosRoutes = require('./router/articulos.routes');
 const cors = require('cors');
 
 //Configuraciones globales
-app.use(morgan('common'));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public')));
