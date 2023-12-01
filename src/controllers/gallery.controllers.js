@@ -33,7 +33,8 @@ Controller.addCard = async (req, res) => {
         res.status(200).json(`Data added successfully: \n ${galleryAdd}`);
 
     } catch (error) {
-        res.status(500).json(`Error duting card saving: ${error}`);
+        res.status(500).json(`Error during card saving: ${error}`);
+        console.error(`Error during card saving: ${error}`);
     } finally {
         res.status(200).json("Add card controller executed");
         console.info("Add card controller executed");
