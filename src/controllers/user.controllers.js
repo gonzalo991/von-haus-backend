@@ -15,15 +15,17 @@ Controller.userLogin = async (req, res) => {
             const token = jwt.sign(payload, JwtKey, { expiresIn: '2d' });
 
             res.status(201).json({ login: true, token, username: user.username });
+            console.info("Data obtained successfully");
         } else {
-            console.log('Authentication failed');
+            console.error('Authentication failed');
             res.status(401).json('Authentication failed');
         }
     } catch (error) {
-        console.log(`Error during user authentication: ${error}`);
+        console.error(`Error during user authentication: ${error}`);
         res.status(500).json('Internal server error');
     } finally {
-        console.log('Login controller executed');
+        res.status(200).json('Login controller executed');
+        console.info("Login controller executed");
     }
 };
 
@@ -32,10 +34,11 @@ Controller.adminPanel = async (req, res) => {
         const user = await User.find();
         res.status(200).json(user);
     } catch (error) {
-        res.status(400).json("No se encontraron los datos del administrador");
-        console.log("No se encontraron los datos del administrador");
+        res.status(400).json("Administrators' data not found");
+        console.error("Administrator data not found");
     } finally {
-        console.log("Se utilizó el controlador de admin panel");
+        res.status(200).json("Administrator controller executed");
+        console.info("Administrator controller executed");
     }
 }
 

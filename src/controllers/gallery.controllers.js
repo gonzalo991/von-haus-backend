@@ -6,9 +6,10 @@ Controller.getCards = async (req, res) => {
         const card = await Gallery.find();
         res.status(200).json(card);
     } catch (error) {
-        res.status(400).json(`Ocurrio un error al cargar las tarjetas: ${error}`);
+        res.status(400).json(`Cards loading failed: ${error}`);
     } finally {
-        console.info("Se utilizo el controlador get cards");
+        res.status(200).json("Get cards controller executed");
+        console.info("Get cards controller executed");
     }
 }
 
@@ -20,7 +21,7 @@ Controller.addCard = async (req, res) => {
 
         // Verificar si hay un archivo adjunto
         if (!req.file) {
-            return res.status(400).json('No se proporcionó ninguna imagen.');
+            return res.status(400).json('Image not found');
         }
 
         const image = req.file.buffer.toString('base64');
@@ -29,13 +30,13 @@ Controller.addCard = async (req, res) => {
 
         const galleryAdd = await galleryImg.save();
 
-        res.status(200).json(`Se agregó a la base de datos: \n ${galleryAdd}`);
+        res.status(200).json(`Data added successfully: \n ${galleryAdd}`);
 
     } catch (error) {
-        console.error(`Ocurrió un error al guardar la tarjeta: ${error}`);
-        res.status(500).json(`Ocurrió un error al guardar la tarjeta: ${error}`);
+        res.status(500).json(`Error duting card saving: ${error}`);
     } finally {
-        console.info("Se utilizó el controlador add card");
+        res.status(200).json("Add card controller executed");
+        console.info("Add card controller executed");
     }
 }
 
@@ -45,34 +46,37 @@ Controller.updateCard = async (req, res) => {
 
         // Verificar si hay un archivo adjunto
         if (!req.file) {
-            return res.status(400).json('No se proporcionó ninguna imagen.');
+            return res.status(400).json('Image not found.');
         }
 
         const { buffer } = req.file;
         const galleryUpdate = { titulo, image: buffer, descripcion }
 
-        console.log(req.params.id);
-        console.log(galleryUpdate);
-
         await Gallery.findByIdAndUpdate(req.params.id, galleryUpdate);
 
-        res.status(200).json("Tarjeta actualizada correctamente");
+        res.status(200).json("Card successfully updated");
+        console.info("Card successfully updated");
 
     } catch (error) {
-        console.error(`Ocurrió un error al actualizar la tarjeta: \n ${error}`);
+        res.status(401).json(`An error occurred during update: \n ${error}`);
+        console.error(`An error occurred during update: \n ${error}`);
     } finally {
-        console.info("Se utilizo el controlador update card.");
+        res.status(200).json("Update card controller executed.");
+        console.info("Update card controller executed.");
     }
 }
 
 Controller.deleteCard = async (req, res) => {
     try {
         await Gallery.findByIdAndDelete(req.params.id);
-        res.status(200).json("Tarjeta borrada correctamente");
+        res.status(200).json("Card deleted");
+        console.info("Card deleted");
     } catch (error) {
-        console.error(`Ocurrió un error al borrar la tarjeta: ${error}`);
+        res.status(401).json(`An error occurred during card's deletion: ${error}`);
+        console.error(`An error occurred during card's deletion: ${error}`);
     } finally {
-        console.info("Se utilizo el controlador delete card");
+        res.status(200).json("Delete card controller executed");
+        console.info("Delete card controller executed");
     }
 }
 

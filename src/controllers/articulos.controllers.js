@@ -5,11 +5,13 @@ Controller.getArticle = async (req, res) => {
     try {
         const articles = await Article.find();
         res.status(200).json(articles);
+        console.info("Articles data obtained successfully");
     } catch (err) {
         res.status(400).json(`Ocurrio un error al cargar los articulos : ${err}`)
         console.error(`Ocurrio un error al cargar los articulos : ${err}`);
     } finally {
-        console.log('Se utilizó el controlador getArticle')
+        res.status(200).json("Get Article controller executed");
+        console.info('Get Article controller executed');
     }
 }
 
@@ -17,12 +19,13 @@ Controller.getArticleById = async (req, res) => {
     try {
         const article = await Article.findById(req.params.id);
         res.status(200).json(article);
+        console.info("Article's data obtained successfully");
     } catch (error) {
-        res.status(404).json(`No se encontró el articulo: ${error}`);
-        console.error(`No se encontró el articulo: ${error}`)
+        res.status(404).json(`Article not found: ${error}`);
+        console.error(`Article not found: ${error}`)
     } finally {
-        console.log("Se utilizó el controlador getArticleById");
-        console.log(req.params.id);
+        res.status(200).json("Get Article By Id executed");
+        console.info("Get Article By Id controller executed");
     }
 }
 
@@ -31,7 +34,7 @@ Controller.addArticle = async (req, res) => {
         const { titulo, subtitulo, texto } = req.body;
 
         if (!req.file) {
-            return res.status(400).json('No se proporcionó ninguna imagen.');
+            return res.status(400).json('Image not found.');
         }
 
         const image = req.file.buffer.toString('base64');
@@ -42,15 +45,17 @@ Controller.addArticle = async (req, res) => {
 
         const articulo = await agregar_articulo.save();
 
-        res.status(200).json(`Articulo publicado correctamente: ${articulo}`);
+        res.status(200).json(`Article published successfully: ${articulo}`);
+        console.info("Article published successfully");
 
     } catch (err) {
 
-        res.status(400).json(`Ocurrió un error al agregar el articulo: ${err}`);
-        console.error(`Ocurrió un error al agregar el articulo: ${err}`);
+        res.status(400).json(`An error occurred during article's addition: ${err}`);
+        console.error(`An error ocurred during article's addition: ${err}`);
 
     } finally {
-        console.log("Se intento agregar un articulo con el controlador addArticle");
+        res.status(200).json("Add article controller executed")
+        console.info("Add article controller executed");
     }
 }
 
@@ -62,24 +67,22 @@ Controller.editArticle = async (req, res) => {
         //Creamos una lista con los valores que recibimos del formulario
         const editar_articulo = { titulo, subtitulo, texto };
 
-        console.log(req.params.id);
-
-        console.log(editar_articulo);
-
         // Realizamos la consulta a la base de datos enviando el id para poder modificar el documento
         // Cambia la línea siguiente
         await Article.findByIdAndUpdate(req.params.id, editar_articulo);
 
-        res.status(200).json(`Articulo actualizado`); // Devolvemos un estado de confirmación de la consulta
+        res.status(200).json(`Article updated successfully`); // Devolvemos un estado de confirmación de la consulta
+        console.info("Article update successfully");
     } catch (error) {
         // Devuelvo el estado del error junto con el mensaje
-        res.status(404).json(`Ocurrió un error al editar el articulo: ${error}`);
+        res.status(404).json(`An error occured during update: ${error}`);
 
         // Imprimo el mensaje por consola
-        console.error(`Ocurrió un error al editar el arituclo: ${error}`);
+        console.error(`An error ocurred during update: ${error}`);
     } finally {
         // Imprimo un mensaje por consola para confirmar que la función funciona correctamente
-        console.log("Se utilizó el controlador editArticle");
+        res.status(200).json("Edit Article controller executed");
+        console.info("Edit Article controller executed");
     }
 }
 
@@ -91,7 +94,8 @@ Controller.deleteArticle = async (req, res) => {
         res.status(404).json(`Ocurrió un error al borrar el articulo: ${error}`);
         console.error(`Ocurrió un error al borrar el articulo: ${error}`);
     } finally {
-        console.log("Se utilizó el controlador deleteArticle");
+        res.status(200).json("Delete Article controller executed");
+        console.info("Delete Article controller executed");
     }
 }
 
