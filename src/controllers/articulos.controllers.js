@@ -58,18 +58,27 @@ Controller.addArticle = async (req, res) => {
 
 Controller.editArticle = async (req, res) => {
     try {
-        // Recibimos los parametros del formulario
+        const article = await Article.findOne({ _id: req.params.id });
+
+        if (!article) {
+            return res.status(404).json('Article not found');
+        }
+
         const { titulo, subtitulo, texto } = req.body;
 
         //Creamos una lista con los valores que recibimos del formulario
         const editar_articulo = { titulo, subtitulo, texto };
 
-        // Realizamos la consulta a la base de datos enviando el id para poder modificar el documento
-        // Cambia la línea siguiente
-        await Article.findByIdAndUpdate(req.params.id, editar_articulo);
+        if (!editar_articulo) {
+            return res.status(404).json(`Empty values: ${editar_articulo}`);
+        } else {
+            // Actualiza el artículo
+            await Article.findOneAndUpdate({ _id: req.params.id }, editar_articulo);
+            // Recibimos los parametros del formulario
+            res.status(200).json({ message: 'Article updated successfully', article: editar_articulo }); // Devolvemos un estado de confirmación de la consulta
+            console.info("Article update successfully");
+        }
 
-        res.status(200).json(`Article updated successfully: ${editar_articulo}`); // Devolvemos un estado de confirmación de la consulta
-        console.info("Article update successfully");
     } catch (error) {
         // Devuelvo el estado del error junto con el mensaje
         res.status(500).json(`An error occured during update: ${error}`);
