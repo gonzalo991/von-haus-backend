@@ -58,7 +58,6 @@ Controller.addArticle = async (req, res) => {
 
 Controller.editArticle = async (req, res) => {
     try {
-        // Extrae los valores del formulario
         const { titulo, subtitulo, texto } = req.body;
 
         // Verifica si alguno de los valores es undefined o null
@@ -66,25 +65,29 @@ Controller.editArticle = async (req, res) => {
             return res.status(400).json('Incomplete form data');
         }
 
-        // Busca el artículo por su _id
-        const article = await Article.findById(req.params.id);
-
-        // Verifica si el artículo existe
-        if (!article) {
-            return res.status(404).json('Article not found');
+        if (!req.file) {
+            return res.status(400).json('Image not found.');
         }
 
-        // Actualiza los campos del artículo con los nuevos valores
-        article.titulo = titulo;
-        article.subtitulo = subtitulo;
-        article.texto = texto;
+        const image = req.file.buffer.toString('base64');
 
-        // Guarda los cambios en la base de datos
-        await article.save();
+        const editar_articulo = {
+            titulo, subtitulo, texto, image
+        };
 
-        // Devuelve una respuesta exitosa
-        res.status(200).json({ message: 'Article updated successfully', article });
-        console.info('Article update successfully');
+        console.log(editar_articulo);
+
+        if (!editar_articulo) {
+            res.status(500).json(`Empty values for article: ${editar_articulo}`)
+        } else {
+            // Busca el artículo por su _id
+            await Article.findByIdAndUpdate(req.params.id, editar_articulo);
+
+            // Devuelve una respuesta exitosa
+            res.status(200).json({ message: 'Article updated successfully', article });
+            console.info('Article update successfully');
+        }
+        
     } catch (error) {
         // Devuelve un mensaje de error y estado 500
         console.error(`An error occurred during update: ${error}`);
