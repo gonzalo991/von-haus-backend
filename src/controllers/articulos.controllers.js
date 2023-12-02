@@ -61,7 +61,7 @@ Controller.editArticle = async (req, res) => {
         const { titulo, subtitulo, texto } = req.body;
 
         // Verifica si alguno de los valores es undefined o null
-        if (titulo === undefined || subtitulo === undefined || texto === undefined) {
+        if (titulo === undefined || subtitulo === undefined ) {
             return res.status(400).json('Incomplete form data');
         }
 
