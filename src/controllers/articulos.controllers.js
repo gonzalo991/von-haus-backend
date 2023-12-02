@@ -58,38 +58,42 @@ Controller.addArticle = async (req, res) => {
 
 Controller.editArticle = async (req, res) => {
     try {
-        const article = await Article.findOne({ _id: req.params.id });
+        // Extrae los valores del formulario
+        const { titulo, subtitulo, texto } = req.body;
 
+        // Verifica si alguno de los valores es undefined o null
+        if (titulo === undefined || subtitulo === undefined || texto === undefined) {
+            return res.status(400).json('Incomplete form data');
+        }
+
+        // Busca el artículo por su _id
+        const article = await Article.findById(req.params.id);
+
+        // Verifica si el artículo existe
         if (!article) {
             return res.status(404).json('Article not found');
         }
 
-        const { titulo, subtitulo, texto } = req.body;
+        // Actualiza los campos del artículo con los nuevos valores
+        article.titulo = titulo;
+        article.subtitulo = subtitulo;
+        article.texto = texto;
 
-        //Creamos una lista con los valores que recibimos del formulario
-        const editar_articulo = { titulo, subtitulo, texto };
+        // Guarda los cambios en la base de datos
+        await article.save();
 
-        if (!editar_articulo) {
-            return res.status(404).json(`Empty values: ${editar_articulo}`);
-        } else {
-            // Actualiza el artículo
-            await Article.findOneAndUpdate({ _id: req.params.id }, editar_articulo);
-            // Recibimos los parametros del formulario
-            res.status(200).json({ message: 'Article updated successfully', article: editar_articulo }); // Devolvemos un estado de confirmación de la consulta
-            console.info("Article update successfully");
-        }
-
+        // Devuelve una respuesta exitosa
+        res.status(200).json({ message: 'Article updated successfully', article });
+        console.info('Article update successfully');
     } catch (error) {
-        // Devuelvo el estado del error junto con el mensaje
-        res.status(500).json(`An error occured during update: ${error}`);
-
-        // Imprimo el mensaje por consola
-        console.error(`An error ocurred during update: ${error}`);
+        // Devuelve un mensaje de error y estado 500
+        console.error(`An error occurred during update: ${error}`);
+        res.status(500).json(`An error occurred during update: ${error}`);
     } finally {
-        // Imprimo un mensaje por consola para confirmar que la función funciona correctamente
-        console.info("Edit Article controller executed");
+        // Imprime un mensaje por consola para confirmar que la función se ejecutó correctamente
+        console.info('Edit Article controller executed');
     }
-}
+};
 
 Controller.deleteArticle = async (req, res) => {
     try {
