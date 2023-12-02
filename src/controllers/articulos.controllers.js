@@ -68,11 +68,11 @@ Controller.editArticle = async (req, res) => {
         // Cambia la línea siguiente
         await Article.findByIdAndUpdate(req.params.id, editar_articulo);
 
-        res.status(200).json(`Article updated successfully`); // Devolvemos un estado de confirmación de la consulta
+        res.status(200).json(`Article updated successfully: ${editar_articulo}`); // Devolvemos un estado de confirmación de la consulta
         console.info("Article update successfully");
     } catch (error) {
         // Devuelvo el estado del error junto con el mensaje
-        res.status(404).json(`An error occured during update: ${error}`);
+        res.status(500).json(`An error occured during update: ${error}`);
 
         // Imprimo el mensaje por consola
         console.error(`An error ocurred during update: ${error}`);
