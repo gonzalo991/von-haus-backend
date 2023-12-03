@@ -15,7 +15,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public')));
-app.use(cors());
+app.use(cors({
+    methods: 'OPTIONS, POST, PUT, GET, DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+}));
 
 app.use('/articulos', articulosRoutes);
 app.use('/usuarios', require('./router/user.routes'));
