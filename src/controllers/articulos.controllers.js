@@ -84,7 +84,7 @@ Controller.editArticle = async (req, res) => {
             await Article.findByIdAndUpdate(req.params.id, editar_articulo);
 
             // Devuelve una respuesta exitosa
-            res.status(200).json({ message: 'Article updated successfully', article });
+            res.status(200).json({ message: 'Article updated successfully', article: editar_articulo });
             console.info('Article update successfully');
         }
         
