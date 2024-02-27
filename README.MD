@@ -97,7 +97,7 @@ _Abrir una consola y ejecutar los siguientes comandos para correr el proyecto en
 
 Node Js
 
-![Logo](https://cdn-icons-png.flaticon.com/512/919/919825,40x40.png)
+![Logo](https://cdn-icons-png.flaticon.com/512/919/919825.png)
 
 * [npm](https://www.npmjs.com/) - Controlador de dependencias
 
