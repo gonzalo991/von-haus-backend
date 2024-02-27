@@ -89,7 +89,6 @@ _Abrir una consola y ejecutar los siguientes comandos para correr el proyecto en
 
 ## Despliegue 📦
 
-### Render
 [Render](render.com)
 
 [Sitio Backend Oficial Von Haus](https://von-haus-data-backend.onrender.com)
