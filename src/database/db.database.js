@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 
 // Obtener la URI de la base de datos desde las variables de entorno
