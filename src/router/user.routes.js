@@ -14,7 +14,6 @@ const { Authentication } = require('../middlewares/jwt.middleware');
  * @access Public
  */
 route.post('/login', Controller.userLogin);
-
 /**
  * @route GET /panel
  * @description Obtener panel de administración de usuarios.

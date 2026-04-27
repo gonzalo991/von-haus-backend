@@ -1,12 +1,14 @@
 const User = require('../models/user.models');
 const jwt = require('jsonwebtoken');
 const JwtKey = process.env.JWT;
+const bcrypt = require('bcrypt')
 
 /**
  * Controlador para el inicio de sesión de usuario.
  * @module Controller
  */
 const Controller = {};
+
 
 /**
  * Realiza la autenticación del usuario.
@@ -21,7 +23,9 @@ Controller.userLogin = async (req, res) => {
 
         const user = await User.findOne({ username });
 
-        if (user && password === user.password) {
+        const isMatch = bcrypt.compare(password, user.password);
+
+        if (isMatch) {
             const payload = { userID: user._id, username: user.username }; 
             const token = jwt.sign(payload, JwtKey, { expiresIn: '2d' });
 

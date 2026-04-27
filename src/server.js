@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const db = require('./database/db.database');
 const articulosRoutes = require('./router/articulos.routes');
 const cors = require('cors');
+const serverless = require('serverless-http');
 
 // Carga de variables de entorno
 dotenv.config({ path: './.env' });
@@ -24,12 +25,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Middleware para servir archivos estáticos
-app.use(express.static(path.join(__dirname, '../public')));
+//app.use(express.static(path.join(__dirname, '../public')));
 
 // Middleware para permitir solicitudes de recursos compartidos entre diferentes dominios
 app.use(cors({
-    methods: 'OPTIONS, POST, PUT, GET, DELETE',
-    allowedHeaders: 'Content-Type, Authorization',
+    origin: process.env.FRONT_URL,
+    credentials: true
 }));
 
 // Rutas de la aplicación
@@ -38,9 +39,10 @@ app.use('/usuarios', require('./router/user.routes')); // Rutas para la gestión
 app.use('/gallery', require('./router/gallery.routes')); // Rutas para la gestión de la galería de imágenes
 
 // Iniciar el servidor
-app.listen(port, (error) => {
-    if (error)
-        console.log(`Hubo un error al iniciar el servidor: ${error}`);
-    else
-        console.log(`Servidor establecido en el puerto: ${port}`);
-});
+process.env.NODE_ENV === "development" ?
+    app.listen(port, (error) => {
+        if (error)
+            console.log(`Hubo un error al iniciar el servidor: ${error}`);
+        else
+            console.log(`Servidor establecido en el puerto: ${port}`);
+    }) : module.exports = serverless(app);
