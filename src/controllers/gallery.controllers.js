@@ -48,7 +48,11 @@ Controller.addCard = async (req, res) => {
 
         const galleryAdd = await galleryImg.save();
 
-        res.status(200).json(`Datos agregados exitosamente: \n ${galleryAdd}`);
+        res.status(201).json({
+            ok: true,
+            message: "Datos agregados exitosamente",
+            card: galleryAdd
+        });
 
     } catch (error) {
         res.status(500).json(`Error durante la guardia de la tarjeta: ${error}`);
@@ -65,28 +69,22 @@ Controller.addCard = async (req, res) => {
  * @param {Object} res - El objeto de respuesta.
  * @returns {Object} - Respuesta JSON confirmando la actualización de la tarjeta.
  */
-Controller.updateCard = async (req, res) => {
+const Controller.updateCard = async (req, res) => {
     try {
         const { titulo, descripcion } = req.body;
 
-        // Verificar si hay un archivo adjunto
-        if (!req.file) {
-            return res.status(400).json('Imagen no encontrada.');
+        let updateData = { titulo, descripcion };
+
+        if (req.file) {
+            updateData.image = req.file.buffer.toString('base64');
         }
 
-        const { buffer } = req.file;
-        const galleryUpdate = { titulo, image: buffer, descripcion }
-
-        await Gallery.findByIdAndUpdate(req.params.id, galleryUpdate);
+        await Gallery.findByIdAndUpdate(req.params.id, updateData);
 
         res.status(200).json("Tarjeta actualizada exitosamente");
-        console.info("Tarjeta actualizada exitosamente");
 
     } catch (error) {
-        res.status(500).json(`Se produjo un error durante la actualización: \n ${error}`);
-        console.error(`Se produjo un error durante la actualización: \n ${error}`);
-    } finally {
-        console.info("Controlador de Actualizar Tarjeta ejecutado.");
+        res.status(500).json(`Error: ${error}`);
     }
 };
 

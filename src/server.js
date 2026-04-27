@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Middleware para servir archivos estáticos
-//app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Middleware para permitir solicitudes de recursos compartidos entre diferentes dominios
 app.use(cors({
