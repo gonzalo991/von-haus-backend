@@ -69,7 +69,7 @@ Controller.addCard = async (req, res) => {
  * @param {Object} res - El objeto de respuesta.
  * @returns {Object} - Respuesta JSON confirmando la actualización de la tarjeta.
  */
-const Controller.updateCard = async (req, res) => {
+Controller.updateCard = async (req, res) => {
     try {
         const { titulo, descripcion } = req.body;
 
