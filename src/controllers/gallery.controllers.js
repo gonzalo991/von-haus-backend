@@ -15,7 +15,7 @@ const Controller = {};
  */
 Controller.getCards = async (req, res) => {
     try {
-        const cards = await Gallery.find().select('-image');
+        const cards = await Gallery.find();
 
         res.status(200).json(cards);
     } catch (error) {
