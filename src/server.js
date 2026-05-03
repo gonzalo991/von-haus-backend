@@ -4,10 +4,10 @@ const app = express();
 const path = require('path');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
-const db = require('./database/db.database');
 const articulosRoutes = require('./router/articulos.routes');
 const cors = require('cors');
 const serverless = require('serverless-http');
+const connectDB = require('./database/db.database');
 
 // Carga de variables de entorno
 dotenv.config({ path: './.env' });
@@ -29,6 +29,12 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // Middleware para permitir solicitudes de recursos compartidos entre diferentes dominios
 app.use(cors());
+
+// Conexión a la base de datos
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
 
 // Rutas de la aplicación
 app.use('/articulos', articulosRoutes); // Rutas para la gestión de artículos
