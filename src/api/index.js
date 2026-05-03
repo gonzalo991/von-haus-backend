@@ -1,3 +1,6 @@
+const serverless = require('serverless-http');
 const app = require('../src/server');
+const connectDB = require("../database/db.database");
 
-module.exports = app;
+connectDB();
+module.exports = serverless(app);

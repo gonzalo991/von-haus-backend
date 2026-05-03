@@ -36,10 +36,13 @@ app.use('/usuarios', require('./router/user.routes')); // Rutas para la gestión
 app.use('/gallery', require('./router/gallery.routes')); // Rutas para la gestión de la galería de imágenes
 
 // Iniciar el servidor
-process.env.NODE_ENV === "development" ?
+if (process.env.NODE_ENV !== 'production') {
     app.listen(port, (error) => {
         if (error)
             console.log(`Hubo un error al iniciar el servidor: ${error}`);
         else
             console.log(`Servidor establecido en el puerto: ${port}`);
-    }) : module.exports = serverless(app);
+    });
+}
+
+module.exports = app;

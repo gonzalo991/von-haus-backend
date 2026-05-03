@@ -15,12 +15,11 @@ const Controller = {};
  */
 Controller.getCards = async (req, res) => {
     try {
-        const cards = await Gallery.find();
+        const cards = await Gallery.find().select('-image');
+
         res.status(200).json(cards);
     } catch (error) {
         res.status(400).json(`Falló la carga de tarjetas: ${error}`);
-    } finally {
-        console.info("Controlador de Obtener Tarjetas ejecutado");
     }
 };
 

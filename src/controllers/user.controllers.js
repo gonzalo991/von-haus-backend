@@ -23,7 +23,7 @@ Controller.userLogin = async (req, res) => {
 
         const user = await User.findOne({ username });
 
-        const isMatch = bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
 
         if (isMatch) {
             const payload = { userID: user._id, username: user.username }; 
