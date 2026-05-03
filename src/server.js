@@ -28,10 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Middleware para permitir solicitudes de recursos compartidos entre diferentes dominios
-app.use(cors({
-    origin: process.env.FRONT_URL,
-    credentials: true
-}));
+app.use(cors());
 
 // Rutas de la aplicación
 app.use('/articulos', articulosRoutes); // Rutas para la gestión de artículos
