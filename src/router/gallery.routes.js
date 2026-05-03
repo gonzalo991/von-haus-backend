@@ -28,7 +28,12 @@ route.post('/addCard', Authentication, upload.single('image'), Controller.addCar
  * @description Actualizar una tarjeta existente en la galería.
  * @access Private
  */
-route.post('/update/:id', Authentication, Controller.updateCard);
+route.put(
+    '/update/:id',
+    Authentication,
+    upload.single('image'),
+    Controller.updateCard
+);
 
 /**
  * @route DELETE /delete/:id

@@ -72,18 +72,32 @@ Controller.updateCard = async (req, res) => {
     try {
         const { titulo, descripcion } = req.body;
 
-        let updateData = { titulo, descripcion };
+        const updateData = {
+            titulo,
+            descripcion
+        };
 
         if (req.file) {
             updateData.image = req.file.buffer.toString('base64');
         }
 
-        await Gallery.findByIdAndUpdate(req.params.id, updateData);
+        const updated = await Gallery.findByIdAndUpdate(
+            req.params.id,
+            updateData,
+            { new: true }
+        );
 
-        res.status(200).json("Tarjeta actualizada exitosamente");
+        return res.status(200).json({
+            ok: true,
+            message: "Tarjeta actualizada",
+            card: updated
+        });
 
     } catch (error) {
-        res.status(500).json(`Error: ${error}`);
+        return res.status(500).json({
+            ok: false,
+            message: `Error: ${error}`
+        });
     }
 };
 
